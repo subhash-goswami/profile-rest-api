@@ -3,6 +3,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.display_name, name="display")
+    path('user/<str:aid>', views.display_name, name="display")
 ]
