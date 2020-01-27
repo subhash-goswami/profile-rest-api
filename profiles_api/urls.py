@@ -4,8 +4,5 @@ from . import views
 
 
 urlpatterns = [
-    path('user/<str:aid>', views.display_name, name="display"),
-    path('hello', views.hello, name="hello")
-
-
+    path('hello-view/', views.HelloApiView.as_view(), name="hello")
 ]
