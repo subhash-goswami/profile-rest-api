@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.viewsets import ViewSet
 
 from . import serializers
 
@@ -44,6 +44,50 @@ class HelloApiView(APIView):
     def delete(self,request, pk=None):
         """Delete an object"""
         return Response({'method':'DELETE'})
+
+
+class HelloViewSet(ViewSet):
+    """Test ViewSet"""
+    serializer_class = serializers.HelloSerializer
+
+    def list(self,request):
+        """Return a list of Hello message it is like get methods in APIView features"""
+        a_viewset = [
+            'Uses action (list, create, retrieve, update, partial_update)',
+            'Application maps ot URLs using Routers',
+            'Provides more functionality with less code',
+        ]
+
+        return Response({'message':'Hello!','a_viewset': a_viewset}, status=200)
+
+    def create(self, request):
+        """Create a new Hello message"""
+        serializer=self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            name=serializer.validated_data.get('name')
+            return Response({'message':'Hello {}'.format(name)},status=200)
+        return Response(
+            serializer.errors,
+            status=400
+        )
+
+    def retrieve(self, request, pk=None):
+        """Handling getting an object by its ID"""
+        return Response({"http_method":'GET'}, status=200)
+
+    def update(self, request, pk=None):
+        """Handling updating an Object"""
+        return Response({'http_method': "PUT"})
+
+    def partial_update(self,request, pk=None):
+        """Handling update part of an object"""
+        return Response({'http_method': 'PATCH'}, status=200)
+
+    def destroy(self,request, pk=None):
+        """Handling Dele ting an object"""
+        return Response({'http_method': 'DELETE'}, status=200)
+
 # Create your views here.
 #
 # def display_name(request, aid):  # aid is an perameter that is get from url
