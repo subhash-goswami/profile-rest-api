@@ -104,6 +104,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'email')
 
+
+class Demo(viewsets.ModelViewSet):
+    serializer_class = serializers.DemoSerializer
+    queryset = models.Demo.objects.all()
+
 # Create your views here.
 #
 # def display_name(request, aid):  # aid is an perameter that is get from url

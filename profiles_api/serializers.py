@@ -27,3 +27,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
             validated_data['password']
         )
         return user
+
+
+class DemoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=models.Demo
+        fields = "__all__"

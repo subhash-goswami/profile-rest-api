@@ -56,14 +56,18 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         Here we return only email we can also return all attribute of that class """
         return self.email
 
+
 # Create your models here.
-# class Demo(models.Model):
-#     name=models.CharField(max_length=25);
-#     age=models.IntegerField();
-#
-#
-#     def __str__(self):
-#         return self.name+"  "+str(self.age);
+class Demo(models.Model):
+    name=models.CharField(max_length=25);
+    age=models.IntegerField();
+
+    # This is set db name or by default django set db name as app_name_ModelName (Here profiles_api_Demo)
+    # class Meta:
+    #     db_table = 'demo'
+
+    def __str__(self):
+        return self.name+"  "+str(self.age);
 
 
 # Every time to change model and/or create new model than we must create migrations file
