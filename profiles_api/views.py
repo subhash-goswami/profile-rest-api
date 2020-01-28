@@ -2,9 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
 
+from . import models
 from . import serializers
+from . import permissions
 
 class HelloApiView(APIView):
     """Test API view"""
@@ -46,7 +49,7 @@ class HelloApiView(APIView):
         return Response({'method':'DELETE'})
 
 
-class HelloViewSet(ViewSet):
+class HelloViewSet(viewsets.ViewSet):
     """Test ViewSet"""
     serializer_class = serializers.HelloSerializer
 
@@ -87,6 +90,16 @@ class HelloViewSet(ViewSet):
     def destroy(self,request, pk=None):
         """Handling Dele ting an object"""
         return Response({'http_method': 'DELETE'}, status=200)
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handling creating and updating profiles"""
+    serializer_class=serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+    # Through queryset.all() methods we copy all create, list, retrieve, update, partial_update, destroy etc
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)
+
 
 # Create your views here.
 #
